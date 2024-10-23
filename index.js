@@ -3,8 +3,9 @@ const cors = require("cors");
 const formData = require("form-data");
 const Mailgun = require("mailgun.js");
 const mongoose = require("mongoose");
+
 require("dotenv").config();
-// const app = express();
+const app = express();
 app.use(express.json());
 app.use(cors());
 app.get("/", (req, res) => {
@@ -456,24 +457,4 @@ app.post("/form", async (req, res) => {
 // if (process.env.PORT) {
 app.listen(process.env.PORT, () => {
   console.log("Server started");
-});
-// } else {
-//   app.listen(3000, () => {
-//     console.log("Server started 🚀");
-//   });
-// }
-
-// app.listen(process.env.PORT, () => {
-//   console.log("SERVER STARTED 🚀");
-// });
-const express = require("express");
-const cors = require("cors");
-const formData = require("form-data");
-const Mailgun = require("mailgun.js");
-
-require("dotenv").config();
-const app = express();
-
-app.listen(process.env.PORT || 3000, () => {
-  console.log("server is listening");
 });
