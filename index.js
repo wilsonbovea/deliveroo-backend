@@ -2,12 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const formData = require("form-data");
 const Mailgun = require("mailgun.js");
-const mongoose = require("mongoose");
 
 require("dotenv").config();
 const app = express();
 app.use(express.json());
 app.use(cors());
+const mailgun = new Mailgun(formData);
+const client = mailgun.client({
+  username: "api",
+  key: process.env.MAILGUN_KEY,
+});
+
 app.get("/", (req, res) => {
   res.json({
     restaurant: {
@@ -422,16 +427,6 @@ app.get("/", (req, res) => {
 app.post("/post", (req, res) => {
   res.status(200).json("route post");
 });
-app.all("*", (req, res) => {
-  res.status(404).json("Vous êtes perdu");
-});
-
-const mailgun = new Mailgun(formData);
-const client = mailgun.client({
-  username: "api",
-  key: process.env.MAILGUN_KEY,
-});
-
 app.post("/form", async (req, res) => {
   try {
     console.log(req.body);
@@ -452,9 +447,10 @@ app.post("/form", async (req, res) => {
     console.log(error.message);
   }
 });
-// Northflank va nous fournir une variable process.env.PORT
+app.all("*", (req, res) => {
+  res.status(404).json("Vous êtes perdu");
+});
 
-// if (process.env.PORT) {
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("Server started");
 });
